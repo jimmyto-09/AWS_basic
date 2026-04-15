@@ -11,7 +11,7 @@ resource "aws_instance" "mi_ec2" {
               echo "<h1>Hola Jimmy Bemvindo</h1>" > /usr/share/nginx/html/index.html
               EOF
 
-  subnet_id                   = aws_subnet.main.id
+  subnet_id   = aws_subnet.main.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.mi_sg.id]
 
