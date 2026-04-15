@@ -1,5 +1,5 @@
 resource "aws_vpc" "mi_test_vpc" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block = "10.0.0.0/16"
 
   tags = {
     Name = "red_test_vpc"
