@@ -6,17 +6,28 @@ on:
       - main
   pull_request:
 
+permissions:
+  id-token: write   # 🔥 necesario para OIDC
+  contents: read
+
 jobs:
   terraform:
     name: Terraform Check
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar repositorio
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Instalar Terraform
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      # 🔐 AQUÍ CONECTAMOS CON AWS
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::226557653125:role/TEST_GITHUB
+          aws-region: eu-west-1
 
       - name: Terraform Init
         run: terraform init
@@ -25,4 +36,8 @@ jobs:
         run: terraform fmt -check
 
       - name: Terraform Validate
-        run: terraform validate  
+        run: terraform validate
+
+      # 🚀 NUEVO: Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
